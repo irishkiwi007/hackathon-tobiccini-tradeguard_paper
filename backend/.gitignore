@@ -1,0 +1,24 @@
+# Secrets — NEVER commit this. Only .env.example (placeholder values)
+# should ever be in version control.
+.env
+.env.exampled
+
+# PocketBase local data and binary, if run from within this folder
+pb_data/
+pb_migrations/
+pocketbase.exe
+pocketbase
+
+# Build output
+/tradeguard
+/server
+*.exe
+*.test
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# OS
+.DS_Store

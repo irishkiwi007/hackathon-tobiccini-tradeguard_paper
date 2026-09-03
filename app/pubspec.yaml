@@ -1,0 +1,26 @@
+name: tradeguard_app
+description: Human-in-the-loop approval app for the TradeGuard trading agent.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  pocketbase: ^0.21.0
+  intl: ^0.19.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+# This was scaffolded in a sandboxed environment with no access to
+# pub.dev, so versions above are unverified and there's no pubspec.lock.
+# Run `flutter pub get` on your own machine to resolve real versions.

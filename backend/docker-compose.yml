@@ -1,0 +1,32 @@
+services:
+  pocketbase:
+    image: ghcr.io/muchobien/pocketbase:latest # community image; swap for
+    # your own build if you prefer running the official pocketbase binary
+    # directly — see https://pocketbase.io/docs/going-to-production/
+    ports:
+      - "8090:8090"
+    volumes:
+      - pocketbase_data:/pb_data
+
+  # Alpaca's MCP server isn't published to a public registry — build it
+  # locally first, per Alpaca's docs:
+  #
+  #   git clone https://github.com/alpacahq/alpaca-mcp-server.git
+  #   cd alpaca-mcp-server
+  #   docker build -t mcp/alpaca:latest .
+  #
+  # Then uncomment this service. In this project's architecture the Go
+  # backend spawns the MCP server as a subprocess directly (see
+  # internal/mcpclient) rather than over the network, so this container
+  # is only useful if you switch to a network transport later.
+  #
+  # alpaca-mcp:
+  #   image: mcp/alpaca:latest
+  #   environment:
+  #     ALPACA_API_KEY: ${ALPACA_API_KEY}
+  #     ALPACA_SECRET_KEY: ${ALPACA_SECRET_KEY}
+  #     ALPACA_PAPER_TRADE: "True"
+  #     ALPACA_TOOLSETS: "market_data,account_read"
+
+volumes:
+  pocketbase_data:
