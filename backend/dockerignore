@@ -1,0 +1,15 @@
+.git
+.env
+.env.example
+.env.exampled
+
+# PocketBase's own data/migrations belong to the pocketbase service
+# (mounted as a volume in docker-compose.yml), not this Go image.
+pb_data
+pb_migrations
+
+# Dev-only helper scripts and docs — not needed at runtime.
+*.py
+*.md
+LICENSE.md
+tradeguard_collections_import.json

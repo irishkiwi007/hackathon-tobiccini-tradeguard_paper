@@ -8,6 +8,22 @@ services:
     volumes:
       - pocketbase_data:/pb_data
 
+  tradeguard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      # .env's POCKETBASE_URL defaults to localhost, which is right for
+      # running the binary directly on your machine but wrong in here —
+      # inside this compose network, PocketBase is reachable by service
+      # name instead. This line overrides whatever .env says.
+      POCKETBASE_URL: http://pocketbase:8090
+    depends_on:
+      - pocketbase
+    restart: unless-stopped
+
   # Alpaca's MCP server isn't published to a public registry — build it
   # locally first, per Alpaca's docs:
   #

@@ -8,7 +8,7 @@ class AppConfig {
   /// needs your machine's LAN IP.
   static const String pocketbaseUrl = String.fromEnvironment(
     'POCKETBASE_URL',
-    // defaultValue: 'http://10.0.2.2:8090',
-    defaultValue: 'http://localhost:8090',
+    defaultValue: 'http://10.0.2.2:8090',
+    //defaultValue: 'http://localhost:8090',
   );
 }
