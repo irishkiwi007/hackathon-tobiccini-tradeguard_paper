@@ -18,7 +18,37 @@ import '../models/proposed_trade.dart';
 class TradeGuardService {
   final PocketBase pb;
 
-  TradeGuardService() : pb = PocketBase(AppConfig.pocketbaseUrl);
+  TradeGuardService() : pb = PocketBase(AppConfig.pocketbaseUrl) {
+    // Belt-and-suspenders alongside the subscribe() calls below: some
+    // hosting edges (confirmed on Railway, as of this fix) buffer or
+    // outright drop the long-lived SSE connection PocketBase's realtime
+    // API depends on, silently — no error, updates just never arrive
+    // until something else (a hot restart, a manual refresh) forces a
+    // fresh fetch. This timer re-fetches everything every few seconds
+    // regardless of whether the SSE push actually worked, so a Railway
+    // (or similarly SSE-unfriendly) deployment still self-corrects
+    // quickly instead of silently going stale. Harmless where SSE does
+    // work fine — it just becomes a redundant extra fetch.
+    _pollTimer = Timer.periodic(const Duration(seconds: 4), (_) => _pollOnce());
+  }
+
+  late final Timer _pollTimer;
+
+  Future<void> _pollOnce() async {
+    // Each guarded independently so one failing (e.g. account_snapshots
+    // not existing yet) never stops the others from refreshing.
+    for (final refresh in [
+      _refreshPending,
+      _refreshPaused,
+      _refreshActivity,
+      _refreshAudit,
+      _refreshSnapshot,
+    ]) {
+      try {
+        await refresh();
+      } catch (_) {}
+    }
+  }
 
   final _pendingController = StreamController<List<ProposedTrade>>.broadcast();
   bool _subscribed = false;
@@ -268,6 +298,7 @@ class TradeGuardService {
   }
 
   void dispose() {
+    _pollTimer.cancel();
     pb.collection('proposed_trades').unsubscribe('*');
     pb.collection('system_config').unsubscribe('*');
     pb.collection('audit_log').unsubscribe('*');

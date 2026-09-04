@@ -4,8 +4,9 @@ import urllib.request
 # --- Edit these to match your setup ---
 EMAIL = "tobiccini@gmail.com"
 PASSWORD = "1234567890"
-POCKETBASE_URL = "http://127.0.0.1:8090"
-IMPORT_FILE = "C:/Users/T/Desktop/Alpaca/tradeguard/backend/tradeguard collections import.json"
+# POCKETBASE_URL = "http://127.0.0.1:8090"
+POCKETBASE_URL = "https://pocketbase-production-c181.up.railway.app"
+IMPORT_FILE = "C:/Users/T/Desktop/Alpaca/tradeguard_paper/backend/tradeguard_collections_import.json"
 
 # --- Auth ---
 auth_req = urllib.request.Request(
