@@ -69,5 +69,4 @@ Docker image, deployed on Railway with PocketBase on a persistent
 volume so trade and audit history survives restarts and redeploys
 rather than resetting to empty.
 
-**Alpaca paper trading account ID:** `[ fill in once the fresh account
-for judging is created ]`
+**Alpaca paper trading account ID:** [PKGVLG2K5EEEL2FXCPA4H5JT5P]`
